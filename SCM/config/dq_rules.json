@@ -1,0 +1,350 @@
+{
+  "suppliers_raw": {
+    "bronze_rules": {
+      "supplier_id": [
+        {
+          "rule_type": "null_check",
+          "mandatory": true,
+          "roles": ["identifier", "critical"]
+        },
+        {
+          "rule_type": "regex_check",
+          "pattern": "^[0-9]+$"
+        }
+      ],
+      "supplier_name": [
+        {
+          "rule_type": "null_check",
+          "mandatory": true,
+          "roles": ["business_name"]
+        }
+      ],
+      "contact_email": [
+        {
+          "rule_type": "null_check",
+          "mandatory": true,
+          "roles": ["contact"]
+        },
+        {
+          "rule_type": "regex_check",
+          "pattern": "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+        }
+      ],
+      "registration_date": [
+        {
+          "rule_type": "date_format_check",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      ],
+      "is_active": [
+        {
+          "rule_type": "boolean_check"
+        }
+      ],
+      "supplier_id,supplier_name": [
+        {
+          "rule_type": "uniqueness_check"
+        }
+      ],
+      "*": [
+        {
+          "rule_type": "duplicate_row_check"
+        },
+        {
+          "rule_type": "null_threshold_check",
+          "threshold_percent": 5
+        }
+      ]
+    },
+
+    "silver_rules": {
+      "supplier_name": [
+        {
+          "rule_type": "length_check",
+          "max_length": 50
+        },
+        {
+          "rule_type": "trim_check"
+        },
+        {
+          "rule_type": "default_value_check",
+          "invalid_values": ["NA", "UNKNOWN", "TBD"]
+        },
+        {
+          "rule_type": "data_type_check",
+          "expected_type": "string"
+        }
+      ],
+      "contact_name": [
+        {
+          "rule_type": "length_check",
+          "max_length": 50
+        },
+        {
+          "rule_type": "trim_check"
+        },
+        {
+          "rule_type": "default_value_check",
+          "invalid_values": ["NA", "UNKNOWN", "TBD"]
+        },
+        {
+          "rule_type": "data_type_check",
+          "expected_type": "string"
+        }
+      ],
+      "contact_email": [
+        {
+          "rule_type": "data_type_check",
+          "expected_type": "string"
+        }
+      ],
+      "credit_score": [
+        {
+          "rule_type": "data_type_check",
+          "expected_type": "integer"
+        },
+        {
+          "rule_type": "range_check",
+          "min": 300,
+          "max": 850
+        }
+      ],
+      "registration_date": [
+        {
+          "rule_type": "date_validity_check",
+          "no_future": true
+        },
+        {
+          "rule_type": "data_type_check",
+          "expected_type": "date"
+        }
+      ],
+      "supplier_gender": [
+        {
+          "rule_type": "allowed_values_check",
+          "allowed_values": ["Male", "Female", "Other"]
+        },
+        {
+          "rule_type": "data_type_check",
+          "expected_type": "string"
+        }
+      ],
+      "is_active": [
+        {
+          "rule_type": "data_type_check",
+          "expected_type": "boolean"
+        },
+        {
+          "rule_type": "boolean_check"
+        }
+      ],
+      "*": [
+        {
+          "rule_type": "duplicate_row_check"
+        },
+        {
+          "rule_type": "null_threshold_check",
+          "threshold_percent": 5
+        }
+      ]
+    },
+
+    "quarantine_rules": [
+      "length_check",
+      "trim_check",
+      "range_check",
+      "default_value_check",
+      "allowed_values_check",
+      "date_validity_check",
+      "duplicate_row_check",
+      "null_threshold_check",
+      "data_type_check"
+    ],
+
+    "failed_rules": [
+      "null_check",
+      "regex_check",
+      "range_check",
+      "data_type_check",
+      "date_format_check",
+      "boolean_check",
+      "uniqueness_check"
+    ]
+  },
+"purchase_orders": {
+  "bronze_rules": {
+    "po_id": [
+      { "rule_type": "null_check", "mandatory": true, "roles": ["identifier", "critical"] },
+      { "rule_type": "regex_check", "pattern": "^[A-Za-z0-9_-]+$" }
+    ],
+    "supplier_id": [
+      { "rule_type": "null_check", "mandatory": true },
+      { "rule_type": "regex_check", "pattern": "^[0-9]+$" }
+    ],
+    "po_date": [
+      { "rule_type": "date_format_check", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+    ],
+    "total_amount": [
+      { "rule_type": "regex_check", "pattern": "^[0-9]*\\.?[0-9]+$" }
+    ],
+    "po_id,supplier_id": [
+      { "rule_type": "uniqueness_check" }
+    ],
+    "*": [
+      { "rule_type": "duplicate_row_check" },
+      { "rule_type": "null_threshold_check", "threshold_percent": 5 }
+    ]
+  },
+
+  "silver_rules": {
+    "po_number": [
+      { "rule_type": "length_check", "max_length": 30 },
+      { "rule_type": "trim_check" },
+      { "rule_type": "data_type_check", "expected_type": "string" }
+    ],
+    "currency": [
+      { "rule_type": "allowed_values_check", "allowed_values": ["USD", "EUR", "INR", "GBP"] },
+      { "rule_type": "data_type_check", "expected_type": "string" }
+    ],
+    "approval_status": [
+      { "rule_type": "allowed_values_check", "allowed_values": ["Pending", "Approved", "Rejected"] },
+      { "rule_type": "data_type_check", "expected_type": "string" }
+    ],
+    "total_amount": [
+      { "rule_type": "data_type_check", "expected_type": "float" }
+    ],
+    "discount_percent": [
+      { "rule_type": "range_check", "min": 0, "max": 100 },
+      { "rule_type": "data_type_check", "expected_type": "float" }
+    ],
+    "*": [
+      { "rule_type": "duplicate_row_check" },
+      { "rule_type": "null_threshold_check", "threshold_percent": 5 }
+    ]
+  },
+
+  "quarantine_rules": [
+    "length_check", "trim_check", "default_value_check", "allowed_values_check",
+    "date_validity_check", "duplicate_row_check", "null_threshold_check", "data_type_check"
+  ],
+
+  "failed_rules": [
+    "null_check", "regex_check", "range_check", "data_type_check",
+    "date_format_check", "boolean_check", "uniqueness_check"
+  ]
+},
+  "order_line_items": {
+  "bronze_rules": {
+    "line_item_id": [
+      { "rule_type": "null_check", "mandatory": true, "roles": ["identifier"] }
+    ],
+    "po_id": [
+      { "rule_type": "null_check", "mandatory": true }
+    ],
+    "quantity_ordered": [
+      { "rule_type": "regex_check", "pattern": "^[0-9]+$" }
+    ],
+    "expected_delivery_date": [
+      { "rule_type": "date_format_check", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+    ],
+    "line_item_id,po_id": [
+      { "rule_type": "uniqueness_check" }
+    ],
+    "*": [
+      { "rule_type": "duplicate_row_check" },
+      { "rule_type": "null_threshold_check", "threshold_percent": 5 }
+    ]
+  },
+
+  "silver_rules": {
+    "item_description": [
+      { "rule_type": "length_check", "max_length": 100 },
+      { "rule_type": "trim_check" },
+      { "rule_type": "default_value_check", "invalid_values": ["NA", "UNKNOWN"] },
+      { "rule_type": "data_type_check", "expected_type": "string" }
+    ],
+    "unit_price": [
+      { "rule_type": "data_type_check", "expected_type": "float" }
+    ],
+    "discount_applied": [
+      { "rule_type": "range_check", "min": 0, "max": 100 },
+      { "rule_type": "data_type_check", "expected_type": "float" }
+    ],
+    "line_status": [
+      { "rule_type": "allowed_values_check", "allowed_values": ["Open", "Shipped", "Cancelled"] },
+      { "rule_type": "data_type_check", "expected_type": "string" }
+    ],
+    "*": [
+      { "rule_type": "duplicate_row_check" },
+      { "rule_type": "null_threshold_check", "threshold_percent": 5 }
+    ]
+  },
+
+  "quarantine_rules": [
+    "length_check", "trim_check", "default_value_check", "allowed_values_check",
+    "date_validity_check", "duplicate_row_check", "null_threshold_check", "data_type_check"
+  ],
+
+  "failed_rules": [
+    "null_check", "regex_check", "range_check", "data_type_check",
+    "date_format_check", "boolean_check", "uniqueness_check"
+  ]
+},
+"inventory_stock": {
+  "bronze_rules": {
+    "inventory_id": [
+      { "rule_type": "null_check", "mandatory": true, "roles": ["identifier"] }
+    ],
+    "item_id": [
+      { "rule_type": "null_check", "mandatory": true }
+    ],
+    "stock_quantity": [
+      { "rule_type": "regex_check", "pattern": "^[0-9]+$" }
+    ],
+    "last_updated": [
+      { "rule_type": "date_format_check", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+    ],
+    "inventory_id,item_id": [
+      { "rule_type": "uniqueness_check" }
+    ],
+    "*": [
+      { "rule_type": "duplicate_row_check" },
+      { "rule_type": "null_threshold_check", "threshold_percent": 5 }
+    ]
+  },
+
+  "silver_rules": {
+    "item_condition": [
+      { "rule_type": "allowed_values_check", "allowed_values": ["New", "Used", "Damaged"] },
+      { "rule_type": "data_type_check", "expected_type": "string" }
+    ],
+    "shelf_life_days": [
+      { "rule_type": "data_type_check", "expected_type": "integer" },
+      { "rule_type": "range_check", "min": 0, "max": 3650 }
+    ],
+    "is_damaged": [
+      { "rule_type": "boolean_check" },
+      { "rule_type": "data_type_check", "expected_type": "boolean" }
+    ],
+    "is_available": [
+      { "rule_type": "boolean_check" },
+      { "rule_type": "data_type_check", "expected_type": "boolean" }
+    ],
+    "*": [
+      { "rule_type": "duplicate_row_check" },
+      { "rule_type": "null_threshold_check", "threshold_percent": 5 }
+    ]
+  },
+
+  "quarantine_rules": [
+    "length_check", "trim_check", "default_value_check", "allowed_values_check",
+    "date_validity_check", "duplicate_row_check", "null_threshold_check", "data_type_check"
+  ],
+
+  "failed_rules": [
+    "null_check", "regex_check", "range_check", "data_type_check",
+    "date_format_check", "boolean_check", "uniqueness_check"
+  ]
+}
+
+}

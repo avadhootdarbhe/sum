@@ -1,0 +1,96 @@
+{
+  "dev": {
+    "catalog": "scm_cata",
+    "suppliers_raw": {
+      "source": "scm_foreign_cata.raw.suppliers_raw",
+      "failed_target": "scm_cata.bronze.suppliers_failed",
+      "quarantine_target": "scm_cata.bronze.suppliers_quarantine",
+      "pass_target": "scm_cata.bronze.suppliers_passed",
+      "audit_log_target": "scm_cata.bronze.suppliers_audit_logs",
+      "primary_key": "supplier_id",
+      "business_key": "supplier_email",
+      "is_incremental": true,
+      "watermark_column": "ingested_at"
+    },
+    "purchase_orders": {
+      "source": "scm_foreign_cata.raw.purchase_orders",
+      "failed_target": "scm_cata.bronze.purchase_orders_failed",
+      "quarantine_target": "scm_cata.bronze.purchase_orders_quarantine",
+      "pass_target": "scm_cata.bronze.purchase_orders_passed",
+      "audit_log_target": "scm_cata.bronze.purchase_orders_audit_logs",
+      "primary_key": "po_id",
+      "business_key": "po_number",
+      "is_incremental": true,
+      "watermark_column": "ingested_at"
+    },
+    "order_line_items": {
+      "source": "scm_foreign_cata.raw.order_line_items",
+      "failed_target": "scm_cata.bronze.order_line_items_failed",
+      "quarantine_target": "scm_cata.bronze.order_line_items_quarantine",
+      "pass_target": "scm_cata.bronze.order_line_items_passed",
+      "audit_log_target": "scm_cata.bronze.order_line_items_audit_logs",
+      "primary_key": "po_id",
+      "business_key": "po_number",
+      "is_incremental": true,
+      "watermark_column": "ingested_at"
+    },
+    "inventory_stock": {
+      "source": "scm_foreign_cata.raw.inventory_stock",
+      "failed_target": "scm_cata.bronze.inventory_stock_failed",
+      "quarantine_target": "scm_cata.bronze.inventory_stock_quarantine",
+      "pass_target": "scm_cata.bronze.inventory_stock_passed",
+      "audit_log_target": "scm_cata.bronze.inventory_stock_audit_logs",
+      "primary_key": "po_id",
+      "business_key": "po_number",
+      "is_incremental": true,
+      "watermark_column": "ingested_at"
+    }
+  },
+  "prod": {
+    "catalog": "scm_prod",
+    "suppliers": {
+      "source": "scm_foreign_cata.raw.suppliers_raw",
+      "failed_target": "scm_prod.bronze.suppliers_failed",
+      "quarantine_target": "scm_prod.bronze.suppliers_quarantine",
+      "pass_target": "scm_prod.bronze.suppliers_passed",
+       "audit_log_target": "scm_prod.bronze.suppliers_audit_logs",
+      "primary_key": "supplier_id",
+      "business_key": "supplier_email",
+      "is_incremental": true,
+      "watermark_column": "ingested_at"
+    },
+    "purchase_orders": {
+      "source": "scm_foreign_cata.raw.purchase_orders",
+      "failed_target": "scm_prod.bronze.purchase_orders_failed",
+      "quarantine_target": "scm_prod.bronze.purchase_orders_quarantine",
+      "pass_target": "scm_prod.bronze.purchase_orders_passed",
+      "audit_log_target": "scm_prod.bronze.purchase_orders_audit_logs",
+      "primary_key": "po_id",
+      "business_key": "po_number",
+      "is_incremental": true,
+      "watermark_column": "ingested_at"
+    },
+    "order_line_items": {
+      "source": "scm_foreign_cata.raw.order_line_items",
+      "failed_target": "scm_prod.bronze.order_line_items_failed",
+      "quarantine_target": "scm_prod.bronze.order_line_items_quarantine",
+      "pass_target": "scm_prod.bronze.order_line_items_passed",
+      "audit_log_target": "scm_prod.bronze.order_line_items_audit_logs",
+      "primary_key": "po_id",
+      "business_key": "po_number",
+      "is_incremental": true,
+      "watermark_column": "ingested_at"
+    },
+    "inventory_stock": {
+      "source": "scm_foreign_cata.raw.inventory_stock",
+      "failed_target": "scm_prod.bronze.inventory_stock_failed",
+      "quarantine_target": "scm_prod.bronze.inventory_stock_quarantine",
+      "pass_target": "scm_prod.bronze.inventory_stock_passed",
+      "audit_log_target": "scm_prod.bronze.inventory_stock_audit_logs",
+      "primary_key": "po_id",
+      "business_key": "po_number",
+      "is_incremental": true,
+      "watermark_column": "ingested_at"
+    }
+  }
+}
