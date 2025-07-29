@@ -211,11 +211,11 @@
       { "rule_type": "data_type_check", "expected_type": "string" }
     ],
     "total_amount": [
-      { "rule_type": "data_type_check", "expected_type": "float" }
+      { "rule_type": "data_type_check", "expected_type": "double" }
     ],
     "discount_percent": [
       { "rule_type": "range_check", "min": 0, "max": 100 },
-      { "rule_type": "data_type_check", "expected_type": "float" }
+      { "rule_type": "data_type_check", "expected_type": "double" }
     ],
     "*": [
       { "rule_type": "duplicate_row_check" },
@@ -264,16 +264,41 @@
       { "rule_type": "data_type_check", "expected_type": "string" }
     ],
     "unit_price": [
-      { "rule_type": "data_type_check", "expected_type": "float" }
+      { "rule_type": "data_type_check", "expected_type": "double" },
+      {
+          "rule_type": "null_check",
+          "mandatory": true
+      }
+    ],
+    "quantity_ordered": [
+      { "rule_type": "data_type_check", "expected_type": "double" },
+      {
+          "rule_type": "null_check",
+          "mandatory": true
+      }
     ],
     "discount_applied": [
       { "rule_type": "range_check", "min": 0, "max": 100 },
-      { "rule_type": "data_type_check", "expected_type": "float" }
+      { "rule_type": "data_type_check", "expected_type": "double" }
     ],
     "line_status": [
-      { "rule_type": "allowed_values_check", "allowed_values": ["Open", "Shipped", "Cancelled"] },
+      { "rule_type": "allowed_values_check", "allowed_values": ["Open", "Shipped", "Cancelled", "cancel", "Cancel" ] },
       { "rule_type": "data_type_check", "expected_type": "string" }
     ],
+    "expected_delivery_date": [
+        {
+          "rule_type": "date_validity_check",
+          "no_future": true
+        },
+        {
+          "rule_type": "data_type_check",
+          "expected_type": "date"
+        },
+        {
+          "rule_type": "null_check",
+          "mandatory": true
+      }
+      ],
     "*": [
       { "rule_type": "duplicate_row_check" },
       { "rule_type": "null_threshold_check", "threshold_percent": 5 }
@@ -281,7 +306,7 @@
   },
 
   "quarantine_rules": [
-    "length_check", "trim_check", "default_value_check", "allowed_values_check",
+    "length_check", "trim_check", "default_value_check", "allowed_values_check", "null_check",
     "date_validity_check", "duplicate_row_check", "null_threshold_check", "data_type_check"
   ],
 
@@ -318,17 +343,56 @@
       { "rule_type": "allowed_values_check", "allowed_values": ["New", "Used", "Damaged"] },
       { "rule_type": "data_type_check", "expected_type": "string" }
     ],
+    "stock_quantity": [
+      { "rule_type": "data_type_check", "expected_type": "integer" },
+      {
+          "rule_type": "null_check",
+          "mandatory": true
+      }
+    ],
+    "reorder_level": [
+      { "rule_type": "data_type_check", "expected_type": "integer" },
+     {
+          "rule_type": "null_check",
+          "mandatory": true
+      }
+    ],
+    "safety_stock": [
+      { "rule_type": "data_type_check", "expected_type": "integer" }
+    ],
     "shelf_life_days": [
       { "rule_type": "data_type_check", "expected_type": "integer" },
       { "rule_type": "range_check", "min": 0, "max": 3650 }
     ],
-    "is_damaged": [
-      { "rule_type": "boolean_check" },
-      { "rule_type": "data_type_check", "expected_type": "boolean" }
+    "last_updated": [
+        {
+          "rule_type": "date_validity_check",
+          "no_future": true
+        },
+        {
+          "rule_type": "data_type_check",
+          "expected_type": "date"
+        },
+        {
+          "rule_type": "null_check",
+          "mandatory": true
+      }
+      ],
+    "temperature_required": [
+      { "rule_type": "allowed_values_check", "allowed_values": [ "frozen", "cold", "room temp", "ambient"] },
+      { "rule_type": "data_type_check", "expected_type": "string" }
+    ],
+     "is_damaged": [
+      { "rule_type": "allowed_values_check", "allowed_values": [ "y", "yes", "n", "no"] },
+      { "rule_type": "data_type_check", "expected_type": "string" }
+    ],
+    "in_transit": [
+      { "rule_type": "allowed_values_check", "allowed_values": [ "y", "yes", "n", "no"] },
+      { "rule_type": "data_type_check", "expected_type": "string" }
     ],
     "is_available": [
-      { "rule_type": "boolean_check" },
-      { "rule_type": "data_type_check", "expected_type": "boolean" }
+      { "rule_type": "allowed_values_check", "allowed_values": [ "y", "yes", "n", "no"] },
+      { "rule_type": "data_type_check", "expected_type": "string" }
     ],
     "*": [
       { "rule_type": "duplicate_row_check" },
@@ -337,7 +401,7 @@
   },
 
   "quarantine_rules": [
-    "length_check", "trim_check", "default_value_check", "allowed_values_check",
+    "length_check", "trim_check", "default_value_check", "allowed_values_check", "null_check",
     "date_validity_check", "duplicate_row_check", "null_threshold_check", "data_type_check"
   ],
 
